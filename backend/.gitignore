@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.env.backup
+*.log
+uploads/
+.DS_Storenode_modules/
+.env
+.env.*
+!.env.example
+.env.backup
+*.log
+uploads/
+.DS_Store

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C41E3A" />
+      <stop offset="50%" stop-color="#B22222" />
+      <stop offset="100%" stop-color="#800000" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA7C11" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#172554" />
+      <stop offset="100%" stop-color="#0B132B" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <path id="textArc" d="M 60,180 A 140,140 0 0,1 340,180" fill="none" />
+  </defs>
+
+  <!-- Shield Base with Shadow -->
+  <g filter="url(#dropShadow)">
+    <path d="M 200,20 
+             C 230,50 310,40 350,90
+             C 365,160 355,270 320,340
+             C 275,410 215,445 200,455
+             C 185,445 125,410 80,340
+             C 45,270 35,160 50,90
+             C 90,40 170,50 200,20 Z" 
+          fill="url(#shieldGrad)" 
+          stroke="url(#goldGrad)" 
+          stroke-width="8" />
+  </g>
+
+  <!-- Inner Gold Shield Inset Border -->
+  <path d="M 200,38 
+           C 225,62 295,54 332,98
+           C 345,160 336,260 306,324
+           C 266,386 212,418 200,428
+           C 188,418 134,386 94,324
+           C 64,260 55,160 68,98
+           C 105,54 175,62 200,38 Z" 
+        fill="none" 
+        stroke="url(#goldGrad)" 
+        stroke-width="3" 
+        opacity="0.85" />
+
+  <!-- Center Blue Medallion -->
+  <circle cx="200" cy="225" r="95" fill="url(#blueGrad)" stroke="url(#goldGrad)" stroke-width="6" filter="url(#dropShadow)" />
+  <circle cx="200" cy="225" r="88" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" />
+
+  <!-- Crossed Pen & Pencil -->
+  <!-- Yellow Pencil (Diagonal \) -->
+  <g transform="translate(200,225) rotate(-45)">
+    <rect x="-6" y="-70" width="12" height="140" rx="3" fill="#FACC15" stroke="#713F12" stroke-width="1.5" />
+    <polygon points="-6,-70 6,-70 0,-85" fill="#E2E8F0" stroke="#475569" stroke-width="1" />
+    <polygon points="-2,-80 2,-80 0,-85" fill="#1E293B" />
+  </g>
+  
+  <!-- Red Pen (Diagonal /) -->
+  <g transform="translate(200,225) rotate(45)">
+    <rect x="-6" y="-70" width="12" height="140" rx="3" fill="#DC2626" stroke="#450A0A" stroke-width="1.5" />
+    <polygon points="-6,-70 6,-70 0,-85" fill="#FDE047" stroke="#854D0E" stroke-width="1" />
+    <circle cx="0" cy="-60" r="2.5" fill="#FDE047" />
+  </g>
+
+  <!-- Flaming Torch of Knowledge (Center Vertical) -->
+  <g id="torch">
+    <!-- Flame Outer Glow -->
+    <path d="M 200,140 
+             C 185,160 185,178 192,190 
+             C 195,195 205,195 208,190 
+             C 215,178 215,160 200,140 Z" 
+          fill="#EF4444" opacity="0.85" />
+    <!-- Flame Inner Gold -->
+    <path d="M 200,148 
+             C 190,165 192,180 196,188 
+             C 198,191 202,191 204,188 
+             C 208,180 210,165 200,148 Z" 
+          fill="url(#goldGrad)" />
+    <!-- Flame Core White -->
+    <ellipse cx="200" cy="182" rx="4" ry="7" fill="#FFFFFF" />
+    
+    <!-- Torch Bowl -->
+    <path d="M 185,192 C 185,202 215,202 215,192 Z" fill="url(#goldGrad)" stroke="#78350F" stroke-width="1.5" />
+    <!-- Torch Handle -->
+    <path d="M 194,202 L 192,260 L 208,260 L 206,202 Z" fill="url(#goldGrad)" stroke="#78350F" stroke-width="1.5" />
+    <line x1="193" y1="215" x2="207" y2="215" stroke="#78350F" stroke-width="1.5" />
+    <line x1="193" y1="230" x2="207" y2="230" stroke="#78350F" stroke-width="1.5" />
+    <line x1="193" y1="245" x2="207" y2="245" stroke="#78350F" stroke-width="1.5" />
+  </g>
+
+  <!-- Arch Text: ARMY PUBLIC SCHOOL -->
+  <path id="archTop" d="M 80,135 A 140,110 0 0,1 320,135" fill="none" />
+  <text font-family="'Oswald', 'Cinzel', 'Arial Black', sans-serif" font-size="20" font-weight="900" fill="url(#goldGrad)" stroke="#78350F" stroke-width="0.8" letter-spacing="3.5">
+    <textPath href="#archTop" startOffset="50%" text-anchor="middle">
+      ARMY PUBLIC SCHOOL
+    </textPath>
+  </text>
+
+  <!-- Bottom Ribbon / Plaque -->
+  <g filter="url(#dropShadow)">
+    <path d="M 60,370 L 340,370 L 325,415 L 75,415 Z" fill="#172554" stroke="url(#goldGrad)" stroke-width="3" />
+    <path d="M 75,415 L 325,415 L 310,450 L 90,450 Z" fill="#991B1B" stroke="url(#goldGrad)" stroke-width="2.5" />
+    
+    <!-- Ribbon Text -->
+    <text x="200" y="401" font-family="'Oswald', 'Georgia', serif" font-size="18" font-weight="900" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="3">
+      TRUTH IS GOD
+    </text>
+    <text x="200" y="440" font-family="'Oswald', sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">
+      KHADAKWASLA
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1a2332;
+  --color-secondary: #4a5d3a;
+  --color-accent: #d4af37;
+  --color-bg-light: #f5f5f5;
+  --color-text-dark: #333333;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    @apply font-body text-text-dark bg-bg-light m-0 p-0 overflow-x-hidden;
+    min-width: 320px;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-primary;
+    text-wrap: balance;
+  }
+
+  img, video, iframe {
+    max-width: 100%;
+  }
+
+  button, a, input, textarea, select {
+    touch-action: manipulation;
+  }
+}
+
+/* Global custom cursor: CustomCursor is mounted above all routes in App. */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.custom-cursor-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+}
+
+.custom-cursor-ring {
+  width: 32px;
+  height: 32px;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid var(--color-secondary);
+  border-radius: 9999px;
+}
+
+/* Fallback for touch devices: native cursors remain available. */
+@media (max-width: 768px), (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: 100%;
+  }
+
+  /* Keep fixed headers and full-screen panels clear of iOS safe areas. */
+  .mobile-safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .mobile-safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Legacy cursor class kept out of the visual layer. */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor.hover {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(212, 175, 55, 0.5); /* translucent accent */
+}
+
+@layer utilities {
+  .perspective {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+/* ============================================================
+   5-Second Animated Logo Implementation
+   ============================================================ */
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 8px;
+  animation: 
+    logoEntrance 5s cubic-bezier(0.2, 0.8, 0.25, 1) forwards,
+    logoFloat 2.5s ease-in-out 5s infinite alternate;
+  will-change: transform, opacity, filter;
+}
+
+.animated-logo {
+  display: block;
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (min-width: 640px) {
+  .animated-logo {
+    height: 54px;
+  }
+}
+
+/* 1s - 3s Light Sweep (Shimmer) */
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 215, 0, 0.45) 50%,
+    rgba(255, 255, 255, 0.85) 55%,
+    rgba(255, 215, 0, 0.45) 60%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: shimmerSweep 5s ease-in-out forwards;
+}
+
+@keyframes logoEntrance {
+  /* 0s - 1s (The Reveal): Fade in and scale up with bounce */
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(14px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.08) translateY(-2px);
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
+  }
+  25% {
+    transform: scale(1) translateY(0);
+  }
+
+  /* 1s - 3s (The Glow): Subtle yellow glowing outline */
+  40%, 60% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.7))
+            drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
+  }
+
+  /* 3s - 4s (Text Pop / Heartbeat Pulse) */
+  70% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 22px rgba(255, 215, 0, 0.9));
+  }
+  80% {
+    transform: scale(0.99);
+  }
+  85% {
+    transform: scale(1);
+  }
+
+  /* 4s - 5s (Settle): Stabilize before continuous float */
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.45));
+  }
+}
+
+@keyframes shimmerSweep {
+  0%, 20% {
+    left: -150%;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  60%, 100% {
+    left: 180%;
+    opacity: 0;
+  }
+}
+
+@keyframes logoFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+/* ============================================================
+   Hero Section: 3D Spinning Logo
+   ============================================================ */
+/* Container to give 3D depth */
+.hero-logo-container {
+  perspective: 1200px; /* Essential for realistic 3D spin */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* The Logo Image */
+.spinning-logo {
+  width: 320px;
+  max-width: 85vw;
+  height: auto;
+  /* The 3D Spin Animation (10s linear continuous) */
+  animation: smoothSpin 10s linear infinite;
+  /* Adds a glow and depth so it stands out on the dark starry background */
+  filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.4)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .spinning-logo {
+    width: 380px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .spinning-logo {
+    width: 420px;
+  }
+}
+
+/* The Keyframes */
+@keyframes smoothSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+
