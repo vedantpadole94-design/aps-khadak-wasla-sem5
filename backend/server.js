@@ -56,6 +56,7 @@ app.use('/api/results', require('./src/routes/results'));
 app.use('/api/popups', require('./src/routes/popups'));
 app.use('/api/settings', require('./src/routes/settings'));
 app.use('/api/pages', require('./src/routes/pages'));
+app.use('/api/clubs', require('./src/routes/clubs'));
 
 app.get('/api/health', (req, res) => res.json({ success: true, message: 'APS Backend Running' }));
 

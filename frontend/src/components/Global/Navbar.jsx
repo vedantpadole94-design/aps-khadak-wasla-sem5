@@ -64,6 +64,7 @@ const Navbar = () => {
         ['Folk Song Champions', '/#houses']
       ]
     },
+    { name: 'Clubs', path: '/clubs' },
     {
       name: 'Achievements',
       path: '/achievements',

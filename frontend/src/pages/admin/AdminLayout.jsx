@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import {
   FiGrid, FiUsers, FiImage, FiCalendar, FiBell,
   FiInbox, FiSettings, FiLogOut, FiUser,
-  FiTrendingUp, FiAlertCircle, FiLayers, FiExternalLink
+  FiTrendingUp, FiAlertCircle, FiLayers, FiExternalLink, FiBookOpen
 } from 'react-icons/fi';
 
 const navItems = [
@@ -18,7 +18,8 @@ const navItems = [
   { to: '/admin/popups',      label: 'Popup Alerts',  icon: FiAlertCircle },
   { to: '/admin/calendar',    label: 'Calendar/Events',icon: FiCalendar },
   { to: '/admin/gallery',     label: 'Photo Gallery', icon: FiImage },
-  { to: '/admin/enquiries',   label: 'Enquiries',     icon: FiInbox },
+  { to: '/admin/clubs',      label: 'Clubs',          icon: FiBookOpen },
+  { to: '/admin/enquiries',  label: 'Enquiries',      icon: FiInbox },
   { to: '/admin/settings',    label: 'Site Settings', icon: FiSettings },
 ];
 

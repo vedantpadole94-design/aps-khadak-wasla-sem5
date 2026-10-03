@@ -13,8 +13,9 @@ const Popup = require('./src/models/Popup');
 const SiteSettings = require('./src/models/SiteSettings');
 const PageContent = require('./src/models/PageContent');
 const Gallery = require('./src/models/Gallery');
+const Club = require('./src/models/Club');
 
-const seedableModels = [Principal, Faculty, Result, Notice, Event, Popup, SiteSettings, PageContent, Gallery];
+const seedableModels = [Principal, Faculty, Result, Notice, Event, Popup, SiteSettings, PageContent, Gallery, Club];
 
 const SCHOOL_DATA = {
   name: "Army Public School Khadakwasla",
@@ -391,6 +392,27 @@ const importData = async () => {
       }
     ]);
     console.log('✅ Page Contents seeded');
+
+    // 11. Clubs
+    await Club.deleteMany();
+    await Club.insertMany([
+      // Primary Wing (Classes 1-5)
+      { wing: 'primary', name: 'Art & Craft Club',    category: 'Arts',     icon: '🎨', description: 'Drawing, painting, origami and creative expression for young learners.',     order: 1, active: true },
+      { wing: 'primary', name: 'Story Time Club',     category: 'Academic', icon: '📖', description: 'Reading and storytelling sessions that build vocabulary and imagination.',      order: 2, active: true },
+      { wing: 'primary', name: 'Mini Sports Club',    category: 'Sports',   icon: '⚽', description: 'Basic games and fitness activities to develop coordination and teamwork.',     order: 3, active: true },
+      { wing: 'primary', name: 'Music & Rhymes Club', category: 'Arts',     icon: '🎵', description: 'Songs, rhymes and rhythm activities to nurture a love for music.',             order: 4, active: true },
+      { wing: 'primary', name: 'Eco Warriors Club',   category: 'Service',  icon: '🌱', description: 'Plantation drives, cleanliness campaigns and environment awareness.',          order: 5, active: true },
+
+      // Secondary Wing (Classes 6-10)
+      { wing: 'secondary', name: 'Science & Innovation Club', category: 'Academic', icon: '🔬', description: 'Hands-on experiments, projects and STEM innovation challenges.',              order: 1, active: true },
+      { wing: 'secondary', name: 'Debate & Quiz Club',        category: 'Academic', icon: '🎤', description: 'Public speaking, elocution, debates and inter-school quiz competitions.',    order: 2, active: true },
+      { wing: 'secondary', name: 'Sports Club',               category: 'Sports',   icon: '🏆', description: 'Cricket, football, athletics and inter-house sports competitions.',          order: 3, active: true },
+      { wing: 'secondary', name: 'Music & Dance Club',        category: 'Arts',     icon: '💃', description: 'Instrumental music training, classical and folk dance performances.',        order: 4, active: true },
+      { wing: 'secondary', name: 'NCC / Scouts',              category: 'Service',  icon: '🎖️', description: 'Discipline, community service, drills and leadership through NCC/Scouts.',  order: 5, active: true },
+      { wing: 'secondary', name: 'Photography Club',          category: 'Arts',     icon: '📷', description: 'Basic photography skills, composition and school event coverage.',           order: 6, active: true }
+    ]);
+    console.log('✅ Clubs seeded (11 clubs across primary and secondary wings)');
+
     await mongoose.disconnect();
   } catch (err) {
     console.error('Error during seeding:', err);

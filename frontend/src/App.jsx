@@ -31,6 +31,8 @@ const ManageCalendar = lazy(() => import('./pages/admin/ManageCalendar'));
 const ManageGallery = lazy(() => import('./pages/admin/ManageGallery'));
 const ManageEnquiries = lazy(() => import('./pages/admin/ManageEnquiries'));
 const ManageSettings = lazy(() => import('./pages/admin/ManageSettings'));
+const Clubs = lazy(() => import('./pages/Clubs'));
+const ManageClubs = lazy(() => import('./pages/admin/ManageClubs'));
 
 function App() {
   return (
@@ -61,6 +63,7 @@ function App() {
             <Route path="faculty" element={<Faculty />} />
             <Route path="mandatory-disclosure" element={<MandatoryDisclosure />} />
             <Route path="disclosure" element={<MandatoryDisclosure />} />
+            <Route path="clubs" element={<Clubs />} />
           </Route>
 
           <Route path="/login" element={<AdminLogin />} />
@@ -79,6 +82,7 @@ function App() {
             <Route path="gallery" element={<ManageGallery />} />
             <Route path="enquiries" element={<ManageEnquiries />} />
             <Route path="settings" element={<ManageSettings />} />
+            <Route path="clubs" element={<ManageClubs />} />
           </Route>
         </Routes>
       </Suspense>
