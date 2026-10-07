@@ -62,26 +62,25 @@ npm run build
 
 ## Deployment
 
-1. Provision MongoDB and restrict its network access to the backend host.
-2. Deploy the backend with `MONGODB_URI`, a new private `JWT_SECRET`, `NODE_ENV=production`, and a suitable `PORT`. Never reuse a development secret.
-3. The API allows `https://www.apskhadakwasla.in` and `https://apskhadakwasla.in`; localhost is allowed only in development. Add any additional exact frontend origins to `CORS_ORIGIN` as a comma-separated list. The API does not enable credentialed cross-origin cookies; admin requests use bearer tokens.
-4. For a separately hosted frontend, set `VITE_API_URL` at build time to the full API base URL ending in `/api`. For a same-origin deployment, leave it unset and route `/api` and `/uploads` to the backend.
-5. Provide persistent storage for `backend/src/uploads` (or configure an equivalent persistent mount); uploaded content is not automatically copied to another host or object store.
-6. If email notifications are needed, configure `ENQUIRY_EMAIL`, `EMAIL_USER`, and `EMAIL_PASS` using your mail provider's credentials. Email delivery is optional; enquiries are stored even when mail is not configured.
-7. Run the checks above, configure HTTPS, set up database backups and monitoring, then verify the live health endpoint, admin login, enquiry flow, and image uploads.
+This repository is configured for **Vercel (frontend) + Render (API) + MongoDB Atlas (database)**. The Vercel project root must be `frontend`; Render uses the root-level `render.yaml` blueprint and deploys from `backend`.
 
-### Credential rotation
+1. Create a MongoDB Atlas M0 cluster and database user. Add `0.0.0.0/0` to Atlas Network Access only if needed for Render's changing outbound IPs; use a unique database password and least-privilege database user. Use the Atlas connection string as `MONGODB_URI` and include `aps_khadakwasla` as its database name.
+2. Push this repository to GitHub. In Render, create a Blueprint from the repository and fill its prompts for `MONGODB_URI`, `CORS_ORIGIN` (temporarily use `https://example.invalid` until Vercel gives you the real URL), and `ADMIN_PASSWORD` (at least 12 characters). Render generates `JWT_SECRET` and supplies `PORT`; do not set a fixed production port.
+3. After Render deploys, copy its service URL, such as `https://aps-khadakwasla-api.onrender.com`. Its health check is `https://<render-service>.onrender.com/api/health`.
+4. In Vercel, import the same repository and set the project root to `frontend`. Add the build-time environment variable `VITE_API_URL=https://<render-service>.onrender.com/api`, then deploy. `frontend/vercel.json` enables React Router deep links on refresh.
+5. Copy the Vercel production origin (scheme and hostname only) into Render's `CORS_ORIGIN`, replacing the temporary value, then redeploy the backend. For preview domains, add their exact origins as comma-separated values if you want previews to call the API.
+6. Seed the database once from a trusted local environment: copy `backend/.env.example` to `backend/.env`, fill in the Atlas `MONGODB_URI`, and use the same `ADMIN_USERNAME` and `ADMIN_PASSWORD` configured on Render. Run `cd backend && npm ci && npm run seed`. The seeder refuses to run without explicit admin credentials and refuses to replace existing content unless `--force` is deliberately supplied. Never use `--force` against production unless a full replacement is intended.
+7. Test the Vercel website, refresh a nested route, check `/api/health`, sign in to the admin panel, and submit a test enquiry.
 
-If credentials may have been exposed, rotate them immediately. Otherwise, rotate them regularly according to your security policy:
+### Free-tier limitations and optional services
 
-1. Change the MongoDB database user's password in MongoDB Atlas and update `MONGODB_URI` in the backend environment.
-2. Generate a new `JWT_SECRET` and update it in the backend environment. This invalidates existing login tokens, so administrators will need to sign in again.
-3. Revoke the Gmail app password and create a replacement in the Google Account, then update `EMAIL_PASS`.
-4. Regenerate the Cloudinary API keys in the Cloudinary Dashboard and update the corresponding backend environment variables.
+- **Uploads are local disk only; Cloudinary is not implemented.** Render's free service has ephemeral storage, so files uploaded through the admin panel can disappear on restart/redeploy. Do not rely on admin uploads until the upload routes are migrated to a persistent object-storage provider or a paid persistent disk is configured. Existing externally hosted image URLs can still be used.
+- **Email uses Gmail SMTP through Nodemailer.** Enquiry saving is independent of email and failures are logged, but Gmail SMTP is not a reliable production option on Render's free tier, where outbound SMTP may be blocked. Configure a supported HTTPS email API before relying on notifications; no email API integration is included yet.
+- Render's free web service can sleep when idle and cold-start on the next request. Free-tier limits and availability can change; confirm current platform terms when creating the services.
+- `PORT` is assigned by Render. Locally, the backend defaults to port 5001 and the frontend to 5173.
+- `backend/.env.example` and `frontend/.env.example` contain variable names/sample local values only. Never upload `.env` files or place secrets in Vercel's frontend environment.
 
-After updating deployment secrets, restart or redeploy the backend and verify database connectivity, admin login, email notifications, and image uploads. Never add replacement secrets to source control or share them in chat.
-
-The frontend's `dist` folder is produced by `npm run build`; deploy its contents to a static host configured to serve `index.html` for client-side routes. Do not deploy the local `.env` files or treat the included seeded content as verified current school information. Review notices, admissions dates, results, contact details, and public disclosures with the school before publication.
+Review the seeded notices, admissions dates, results, contact details, and public disclosures with the school before publishing; the included seed content is not verified current school information.
 
 ## Features
 

@@ -1,28 +1,31 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
 (async () => {
   try {
-    console.log('\n🔐 Resetting admin user...\n');
-    await mongoose.connect(process.env.MONGODB_URI);
+    const mongodbUri = process.env.MONGODB_URI;
+    const username = process.env.ADMIN_USERNAME?.trim();
+    const password = process.env.ADMIN_PASSWORD;
+    if (!mongodbUri) throw new Error('MONGODB_URI is required');
+    if (!username) throw new Error('ADMIN_USERNAME is required');
+    if (!password || password.length < 12) {
+      throw new Error('ADMIN_PASSWORD must be at least 12 characters');
+    }
+
+    console.log('\n🔐 Configuring admin user...\n');
+    await mongoose.connect(mongodbUri);
     console.log('✅ MongoDB connected');
 
     const User = require('../src/models/User');
-    await User.deleteMany({ username: 'admin' });
-
-    const hash = await bcrypt.hash('aps123', 12);
-    await User.create({
-      username: 'admin',
-      password: hash,
-      role: 'admin'
-    });
-
-    console.log('\n✅ Admin reset successfully!\n');
-    console.log('═══════════════════════════════════════');
-    console.log('   Username : admin');
-    console.log('   Password : aps123');
-    console.log('═══════════════════════════════════════\n');
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      existingUser.password = password;
+      existingUser.role = 'admin';
+      await existingUser.save();
+    } else {
+      await User.create({ username, password, role: 'admin' });
+    }
+    console.log(`✅ Admin account configured for username "${username}".`);
 
     await mongoose.disconnect();
     process.exit(0);

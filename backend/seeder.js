@@ -103,12 +103,12 @@ const rawAdmin = [
 const importData = async () => {
   try {
     if (!process.env.MONGODB_URI) throw new Error('MONGODB_URI is required');
-    // In development, fall back to 'aps123' if ADMIN_PASSWORD is not set or is still a placeholder.
-    const isPlaceholder =
-      !process.env.ADMIN_PASSWORD ||
-      process.env.ADMIN_PASSWORD.startsWith('replace-with');
-    const adminPassword = isPlaceholder ? 'aps123' : process.env.ADMIN_PASSWORD;
-    const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+    const adminUsername = process.env.ADMIN_USERNAME?.trim();
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminUsername) throw new Error('ADMIN_USERNAME is required');
+    if (!adminPassword || adminPassword.length < 12) {
+      throw new Error('ADMIN_PASSWORD must be at least 12 characters');
+    }
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB connected for seeding...');
 
