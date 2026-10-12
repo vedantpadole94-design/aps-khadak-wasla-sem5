@@ -12,3 +12,4 @@ build/
 .idea/
 backend/uploads/
 frontend/uploads/
+*.dmg
