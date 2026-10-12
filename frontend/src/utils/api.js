@@ -1,4 +1,9 @@
-export const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+const envApi = import.meta.env.VITE_API_URL;
+const rawApi = (envApi && !envApi.includes('your-render-backend-name')) 
+  ? envApi 
+  : 'https://aps-khadak-wasla-sem5.onrender.com/api';
+
+export const API_BASE_URL = rawApi.replace(/\/+$/, '');
 const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
 
 export const assetUrl = (path) => {
