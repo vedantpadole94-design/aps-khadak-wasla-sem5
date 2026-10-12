@@ -22,6 +22,7 @@ const Category = require('./src/models/Category');
 const { seedDefaultCategories } = require('./src/utils/defaultCategories');
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.set('query parser', sanitizeMongoQuery);
 app.use(express.json({ limit: '1mb' }));
